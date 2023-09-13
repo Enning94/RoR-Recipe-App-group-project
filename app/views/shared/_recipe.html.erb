@@ -1,0 +1,27 @@
+<div class = "form-wrapper">
+<%= form_with(model: @recipe, url:(recipes_path), local: true)  do |f| %>
+<div>
+  <%= f.label :name%><br>
+  <%= f.text_field :name,  class: "form-title" %>
+</div>
+<div>
+  <%= f.label :description %><br>
+  <%= f.text_area :description, class: "form-text" %>
+</div>
+<div>
+  <%= f.label :preparation_time %><br>
+  <%= f.text_field :preparation_time, class: "form-text" %>
+</div>
+<div>
+  <%= f.label :cooking_time %><br>
+  <%= f.text_field :cooking_time, class: "form-text" %>
+</div>
+<div>
+  <%= f.label :public %><br>
+  <%= f.check_box :public, class: "form-checkbox" %>
+</div>
+<div>
+<%=f.submit class: "form-btn"%>
+</div>
+<% end %>
+</div>
