@@ -1,32 +1,31 @@
-<%= form_with(model: recipe_food) do |form| %>
-  <% if recipe_food.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(recipe_food.errors.count, "error") %> prohibited this recipe_food from being saved:</h2>
+<%= form_with(model: @recipe_food, url: recipe_recipe_foods_path, local: true) do |form| %>
+  <div class = "mt-4 p-2">
+    <%= form.hidden_field :recipe_id, value: @recipe.id %>
+    <%= form.collection_select :food_id, @foods, :id, :name, { prompt: '.. Select a Food ..' }, id: 'food-select'%>
 
-      <ul>
-        <% recipe_food.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :recipe_id, style: "display: block" %>
-    <%= form.text_field :recipe_id %>
+    <% if @recipe_food.errors.any? %>
+        <p class="text-danger mb-0">
+          <%= @recipe_food.errors[:food_id].first %>
+        </p>
+    <% end %>
   </div>
 
-  <div>
-    <%= form.label :food_id, style: "display: block" %>
-    <%= form.text_field :food_id %>
+  <div class = "mt-2 p-2">
+    <%= form.number_field :quantity,
+        autofocus: true,
+        autocomplete: 'quantity',
+        placeholder: 'Enter quantity',
+        class: 'form-control'
+    %>
+    <% if @recipe_food.errors.any? %>
+        <p class="text-danger mb-0">
+          <%= @recipe_food.errors[:quantity].first %>
+        </p>
+    <% end %>
   </div>
 
-  <div>
-    <%= form.label :quantity, style: "display: block" %>
-    <%= form.text_field :quantity %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="actions text-center">
+    <%= form.submit class: 'btn btn-outline-dark btn-sm mt-4 px-3' %>
+    <%= link_to 'Cancel', recipe_path(@recipe), class: "btn btn-outline-dark btn-sm mt-4 px-3" %>
   </div>
 <% end %>
