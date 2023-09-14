@@ -1,5 +1,4 @@
 class FoodsController < ApplicationController
-  before_action :set_food, only: %i[show edit update destroy]
 
   include FoodsHelper
 
@@ -8,7 +7,6 @@ class FoodsController < ApplicationController
     @foods = current_user.foods
   end
 
-  # GET /foods/1 or /foods/1.json
   def show; end
 
   # GET /foods/new
@@ -56,7 +54,7 @@ class FoodsController < ApplicationController
   # DELETE /foods/1 or /foods/1.json
   def destroy
     respond_to do |format|
-      if @food.inventory_foods.none? && @food.recipe_foods.none? && @food.destroy
+      if @food.destroy
         format.html { redirect_to foods_path, notice: 'Food was successfully destroyed.' }
         format.json { head :no_content }
       else

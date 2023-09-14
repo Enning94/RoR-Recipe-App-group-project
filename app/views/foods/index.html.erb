@@ -44,7 +44,7 @@
                 <td><%= food.price %></td>
                 <td class="d-flex justify-content-center justify-content-around" >
                   <span> <%= link_to "Modify", edit_food_path(food), class: "btn btn-danger"%> </span>
-                  <span> <%= button_to "Remove", food_path(food), class: "btn btn-danger", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %></span>                </td>
+                  <span> <%= button_to "Remove", food_path(food), class: "btn btn-danger", method: :delete%></span>                </td>
               </tr>
             <% end %>
           </tbody>
