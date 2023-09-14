@@ -1,8 +1,6 @@
 class PublicRecipesController < ApplicationController
   def index
     @public_recipes = User.includes(:recipes).where(recipes: { public: true })
-
-    
   end
 
   def show
@@ -10,6 +8,4 @@ class PublicRecipesController < ApplicationController
     @recipe_id = @recipe.id
     render :show
   end
-
-
 end

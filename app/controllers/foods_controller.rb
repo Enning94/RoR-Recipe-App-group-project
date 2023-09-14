@@ -1,5 +1,4 @@
 class FoodsController < ApplicationController
-
   include FoodsHelper
 
   def index
