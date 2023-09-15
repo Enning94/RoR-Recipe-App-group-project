@@ -32,12 +32,9 @@
 
       <div class="d-flex justify-content-between align-items-center mt-3">
         <div class="add-btn">
-          <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-secondary">
-            Generate shopping list
-          </button>
+          <%= link_to 'Generate shopping list', general_shopping_list_path(recipe_id: @recipe.id), class: 'btn btn-secondary' %>
         </div>
-        <%= render partial: 'shared/modal_structure' %>
-       
+
         <div class="add-btn">
           <%= link_to 'Add ingredient', new_recipe_recipe_food_path(recipe_id: @recipe.id), class: 'btn btn-primary' %>
         </div>

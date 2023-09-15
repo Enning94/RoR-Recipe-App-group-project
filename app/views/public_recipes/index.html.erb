@@ -15,7 +15,7 @@
               </div>
               <div class="col p-2 text-end p-4">
                 <p>Total food items: <%= recipe.recipe_foods.count %></p>
-  <p>Total price: $<%= recipe.recipe_foods.sum { |food_recipe| food_recipe.quantity * food_recipe.food.price } %></p>
+              <p>Total price: $<%= recipe.recipe_foods.sum { |food_recipe| food_recipe.quantity * food_recipe.food.price } %></p>
               </div>
             </div>
           <% end %>
