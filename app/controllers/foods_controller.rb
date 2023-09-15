@@ -6,14 +6,10 @@ class FoodsController < ApplicationController
     @foods = current_user.foods
   end
 
-  def show; end
-
-  # GET /foods/new
   def new
     @food = Food.new
   end
 
-  # GET /foods/1/edit
   def edit
     @food = Food.find(params[:id])
     respond_to do |format|
@@ -22,7 +18,6 @@ class FoodsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /foods/1 or /foods/1.json
   def update
     @food = Food.find(params[:id])
     respond_to do |format|
@@ -36,7 +31,6 @@ class FoodsController < ApplicationController
     end
   end
 
-  # POST /foods
   def create
     @food = Food.new(food_params)
     @food.user_id = current_user.id
@@ -52,7 +46,6 @@ class FoodsController < ApplicationController
     end
   end
 
-  # DELETE /foods/1 or /foods/1.json
   def destroy
     @food = Food.find(params[:id])
     respond_to do |format|
@@ -71,12 +64,10 @@ class FoodsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_food
     @food = Food.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def food_params
     params.fetch(:food, {}).permit(:name, :measurement_unit, :price, :quantity)
   end

@@ -10,7 +10,6 @@ class RecipesController < ApplicationController
   def show
     notice_message
     @recipe = Recipe.includes(:recipe_foods).find(params[:id])
-
     render :show
   end
 
