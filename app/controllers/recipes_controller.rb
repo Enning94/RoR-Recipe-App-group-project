@@ -56,7 +56,6 @@ class RecipesController < ApplicationController
 
   def destroy
     @recipe = Recipe.find(params[:id])
-
     respond_to do |format|
       if can? :destroy, @recipe
         @recipe.destroy
@@ -77,25 +76,36 @@ class RecipesController < ApplicationController
 
   def general_shopping_list
     @recipe_id = params[:recipe_id]
-    @inventory_id = params[:inventory_id]
+    @user = current_user 
     @recipe = Recipe.find(params[:recipe_id])
-    @inventory = Inventory.find(params[:inventory_id])
-    recipe_foods = @recipe.recipe_foods.includes(:food)
-    inventory_foods = @inventory.inventory_foods.includes(:food)
-    @inventories = current_user.inventories
+    recipe_foods = @recipe.recipe_foods.includes(food: :user)
+    
+    user_foods = @user.foods
+    
     @missing_foods = []
-    @inventories.each do |inventory|
-      inventory_foods = inventory.inventory_foods.includes(:food)
-      missing_foods = inventory_foods.where.not(food_id: recipe_foods.pluck(:food_id))
-      @missing_foods.concat(missing_foods)
-    end
-    @missing_foods.uniq!
+    
+    recipe_foods.each do |recipe_food|
+      
+    user_food = user_foods.find_by(name: recipe_food.food.name)
+      
+    if user_food.nil? || user_food.quantity < recipe_food.quantity
+        
+    quantity_needed = recipe_food.quantity - (user_food&.quantity || 0)
+        
+    total_price_needed = quantity_needed * recipe_food.food.price
 
-    @total_value_needed = @missing_foods.sum do |missing_food|
-      missing_food.quantity * missing_food.food.price
+        @missing_foods << {
+          food_name: recipe_food.food.name,
+          quantity_needed: quantity_needed,
+          price_per_unit: recipe_food.food.price,
+          total_price_needed: total_price_needed
+        }
+      end
     end
+    
+    @total_value_needed = @missing_foods.sum { |missing_food| missing_food[:total_price_needed] }
   end
-
+  
   private
 
   def recipe_params
