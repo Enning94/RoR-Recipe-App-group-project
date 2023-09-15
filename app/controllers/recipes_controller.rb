@@ -75,37 +75,34 @@ class RecipesController < ApplicationController
   end
 
   def general_shopping_list
-    @recipe_id = params[:recipe_id]
-    @user = current_user 
     @recipe = Recipe.find(params[:recipe_id])
+    @recipe_id = params[:recipe_id]
+    @user = current_user
     recipe_foods = @recipe.recipe_foods.includes(food: :user)
-    
     user_foods = @user.foods
-    
-    @missing_foods = []
-    
-    recipe_foods.each do |recipe_food|
-      
-    user_food = user_foods.find_by(name: recipe_food.food.name)
-      
-    if user_food.nil? || user_food.quantity < recipe_food.quantity
-        
-    quantity_needed = recipe_food.quantity - (user_food&.quantity || 0)
-        
-    total_price_needed = quantity_needed * recipe_food.food.price
 
-        @missing_foods << {
-          food_name: recipe_food.food.name,
-          quantity_needed: quantity_needed,
-          price_per_unit: recipe_food.food.price,
-          total_price_needed: total_price_needed
-        }
-      end
+    @missing_foods = []
+
+    recipe_foods.each do |recipe_food|
+      user_food = user_foods.find_by(name: recipe_food.food.name)
+
+      next unless user_food.nil? || user_food.quantity < recipe_food.quantity
+
+      quantity_needed = recipe_food.quantity - (user_food&.quantity || 0)
+
+      total_price_needed = quantity_needed * recipe_food.food.price
+
+      @missing_foods << {
+        food_name: recipe_food.food.name,
+        quantity_needed:,
+        price_per_unit: recipe_food.food.price,
+        total_price_needed:
+      }
     end
-    
+
     @total_value_needed = @missing_foods.sum { |missing_food| missing_food[:total_price_needed] }
   end
-  
+
   private
 
   def recipe_params
