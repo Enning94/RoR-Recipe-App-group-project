@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-10 mt-4 p-2">
+      <h1 class="text-center">
+        Foods List
+      </h1>
+
+      <div class="d-flex justify-content-end">
+        <%= link_to 'New Food', new_food_path, class: "btn btn-primary" %>
+      </div>
+
+      <% if notice %>
+        <p class="alert alert-success"><%= notice %></p>
+      <% end %>
+
+      <% if alert %>
+        <p class="alert alert-danger">
+          <%= alert %>
+        </p>
+      <% elsif @foods.empty? %>
+        <p class="alert alert-info">
+        There are no foods in the database for the user. Please add new food.
+        </p>
+      <% end %>
+
+      <% if @foods.any? %>
+        <hr>
+        <table class="table table-striped table-ligth">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Food</th>
+              <th>Measurement Unit</th>
+              <th>Unit Price</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @foods.each_with_index do |food, index| %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= food.name %></td>
+                <td><%= food.measurement_unit %></td>
+                <td><%= food.price %></td>
+                <td class="d-flex justify-content-center justify-content-around" >
+                  <span> <%= link_to "Modify", edit_food_path(food), class: "btn btn-danger"%> </span>
+                  <span> <%= button_to "Remove", food_path(food), class: "btn btn-danger", method: :delete%></span>                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>     
+</div>
